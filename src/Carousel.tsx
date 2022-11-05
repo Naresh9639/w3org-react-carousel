@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Controls } from "./Controls";
 
-interface Image {
-    src: string,
-    alt: string,
-    class?: string
+interface ICarouselProps {
+    Images: Array<Image>,
+    Config: { id: string, headerText: string }
 }
 
-function Carousel({ Images }: { Images: Array<Image> }) {
+interface Image { src: string, alt: string, class?: string }
+
+function Carousel({ Images, Config }: ICarouselProps) {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0 as number);
     const [carouselImages, setCarouselImages] = useState(Images as Array<Image>);
     const [startAnimation, setStartAnimation] = useState(true as boolean);
@@ -16,8 +17,21 @@ function Carousel({ Images }: { Images: Array<Image> }) {
     const carouselRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        let animationInterval: any;
         let carouselRefElem = carouselRef.current;
+        carouselRefElem?.addEventListener('mouseenter', () => setStartAnimation(false));
+        carouselRefElem?.addEventListener('mouseleave', () => setStartAnimation(true));
+        carouselRefElem?.addEventListener('focusin', () => setStartAnimation(false));
+        carouselRefElem?.addEventListener('focusout', () => setStartAnimation(true));
+        return () => {
+            carouselRefElem?.removeEventListener('mouseenter', () => setStartAnimation(false));
+            carouselRefElem?.removeEventListener('mouseleave', () => setStartAnimation(true));
+            carouselRefElem?.removeEventListener('focusin', () => setStartAnimation(false));
+            carouselRefElem?.removeEventListener('focusout', () => setStartAnimation(true));
+        }
+    }, []);
+
+    useEffect(() => {
+        let animationInterval: any;
 
         if (startAnimation) {
             animationInterval = setInterval(() => {
@@ -38,17 +52,9 @@ function Carousel({ Images }: { Images: Array<Image> }) {
             images[currentSlideIndex + 1 === slideImagesLength ? 0 : currentSlideIndex + 1].class = `${slideDirection === 2 ? 'in-transition next' : 'next'}`;
             return images;
         });
-        carouselRefElem?.addEventListener('mouseenter', () => setStartAnimation(false));
-        carouselRefElem?.addEventListener('mouseleave', () => setStartAnimation(true));
-        carouselRefElem?.addEventListener('focusin', () => setStartAnimation(false));
-        carouselRefElem?.addEventListener('focusout', () => setStartAnimation(true));
 
         return () => {
             clearInterval(animationInterval);
-            carouselRefElem?.removeEventListener('mouseenter', () => setStartAnimation(false));
-            carouselRefElem?.removeEventListener('mouseleave', () => setStartAnimation(true));
-            carouselRefElem?.removeEventListener('focusin', () => setStartAnimation(false));
-            carouselRefElem?.removeEventListener('focusout', () => setStartAnimation(true));
         }
     }, [Images, currentSlideIndex, startAnimation, slideDirection]);
 
@@ -64,8 +70,8 @@ function Carousel({ Images }: { Images: Array<Image> }) {
     }
 
     return (
-        <section className="active carousel" aria-labelledby="carouselheading" ref={carouselRef}>
-            <h3 id="carouselheading" className="visuallyhidden">Recent news</h3>
+        <section className="active carousel" aria-labelledby={Config.id} ref={carouselRef}>
+            <h3 id={Config.id} className="visuallyhidden">{Config.headerText}</h3>
 
             <ul>
                 {carouselImages.map((img, imgIndex) => {

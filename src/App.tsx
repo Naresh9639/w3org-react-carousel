@@ -13,7 +13,10 @@ function App() {
         { src: teddy1, alt: `Space Teddy 1`},
         { src: teddy2, alt: `Space Teddy 2`},
         { src: teddy3, alt: `Space Teddy 3`}
-      ]} />
+      ]} Config={{
+        id: 'carouselheading',
+        headerText: 'Recent news'
+      }}/>
     </div>
   )
 }
