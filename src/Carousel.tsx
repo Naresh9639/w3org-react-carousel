@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { Controls } from "./Controls";
+import { LiveRegion } from "./LiveRegion";
 
 interface ICarouselProps {
     Images: Array<Image>,
@@ -107,9 +108,7 @@ function Carousel({ Images, Config }: ICarouselProps) {
                 }
 
             </ul>
-            <div aria-live="polite" aria-atomic="true" className="liveregion visuallyhidden">
-                {`Item ${currentSlideIndex + 1} of ${carouselImages.length}`}
-            </div>
+            <LiveRegion slideIndex={currentSlideIndex + 1} slidesLength={carouselImages.length}/>
         </section>
     )
 }

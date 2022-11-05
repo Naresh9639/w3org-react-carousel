@@ -1,6 +1,7 @@
 {
   "name": "w3org-react-carousel",
   "version": "0.1.0",
+  "description": "w3org React Carousel",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -21,6 +22,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Naresh9639/w3org-react-carousel"
+  },
+  "author": "Naresh S",
+  "email": "nareshs9539@gmail.com",
+  "bugs": {
+    "url": "https://github.com/Naresh9639/w3org-react-carousel/issues"
   },
   "eslintConfig": {
     "extends": [

@@ -15,7 +15,7 @@ function App() {
         { src: teddy3, alt: `Space Teddy 3`}
       ]} Config={{
         id: 'carouselheading',
-        headerText: 'Recent news'
+        headerText: 'Recent News Today'
       }}/>
     </div>
   )
